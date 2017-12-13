@@ -19,31 +19,31 @@ __all__ = ['QuantitativeSample']
 class QuantitativeSample(Sample):
 
     def __init__(self, data=[], assumed_mean = 0):
-        self.data = data
+        Sample.__init__(self, data)
         self.assumed_mean = assumed_mean
 
     def normalize(self):
         m = self.mean
         if m == 0:
-            m = 1
-        for index, value in enumerate(self.data):
-            self.data[index] = self.data[index] / m
+            return
+        for index, value in enumerate(self):
+            self[index] = self[index] / m
 
     @property
     def n(self) -> float:
-        return len(self.data)
+        return len(self)
         
     @property
     def mean(self) -> float:
-        return sum(self.data) / self.n
+        return sum(self) / self.n
 
     @property
     def geometric_mean(self) -> float:
-        return reduce(mul, self.data) ** (1 / self.n)
+        return reduce(mul, self) ** (1 / self.n)
 
     @property
     def median(self) -> float:
-        d = sorted(self.data)
+        d = sorted(self)
         if self.n % 2 == 0:
             i = (self.n + 1) / 2
             left = math.floor(i)
@@ -60,7 +60,7 @@ class QuantitativeSample(Sample):
     @property
     def variance(self) -> float:
         mean = self.mean
-        return sum(map(lambda y: (y - mean)**2, self.data)) / (self.n - 1)
+        return sum(map(lambda y: (y - mean)**2, self)) / (self.n - 1)
 
     @property
     def standard_deviation(self) -> float:
@@ -69,11 +69,11 @@ class QuantitativeSample(Sample):
 
     @property
     def range(self) -> float:
-        return max(self.data) - min(self.data)
+        return max(self) - min(self)
 
     @property
     def mode(self) -> tuple:
-        return Counter(self.data).most_common(1)
+        return Counter(self).most_common(1)
     
     @property
     def coefficient_of_variation(self) -> float:
@@ -81,25 +81,25 @@ class QuantitativeSample(Sample):
 
     @property
     def min(self) -> float:
-        return min(self.data)
+        return min(self)
 
     @property
     def max(self) -> float:
-        return max(self.data)
+        return max(self)
 
     @property
     def sum(self):
-        return sum(self.data)
+        return sum(self)
 
     @property
     def squared_sum(self) -> float:
-        return sum(self.data) ** 2
+        return sum(self) ** 2
 
     @property
     def sum_of_squares(self) -> float:
         return sum(
             list(
-                map(lambda x: x**2, self.data)
+                map(lambda x: x**2, self)
                 )
             )
 
@@ -114,7 +114,7 @@ class QuantitativeSample(Sample):
     @property
     def result(self) -> dict:
         return {
-            'data' : self.data,
+            'data' : self,
             'n' : self.n,
             'sum' : self.sum,
             'squared_sum' : self.squared_sum,

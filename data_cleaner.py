@@ -7,12 +7,12 @@ class DataCleaner:
         self.clean_list = clean_list
 
     @property
-    def cleaned(self):
+    def cleaned(self) -> list:
         return list(
-            filter(self.clean, self.data)
+            filter(self.cleaner, self.data)
         )
 
-    def clean(self, item):
+    def cleaner(self, item) -> bool:
         if item in self.clean_list:
             return False
         return True

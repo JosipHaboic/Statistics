@@ -5,10 +5,10 @@ __all__ = ['QuantitativeSample']
 
 class QuantitativeSample(Sample):
 
-    def __init__(self, data=[]):
-        self.data = data
+    def __init__(self, data):
+        Sample.__init__(self, data)
 
     @property
     def counted(self):
-        return Counter(self.data).most_common()
+        return Counter(self).most_common()
 

@@ -1,3 +1,7 @@
+'''
+This module exists only for informational purposes.
+'''
+
 class Variable:
     ''' The measurements to be made are referred to as variables.'''
     pass

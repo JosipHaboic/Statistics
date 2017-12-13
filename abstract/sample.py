@@ -16,6 +16,6 @@ class Sample(Population):
        6. Test results (positive or negative) among 50 pregnant women taking a home pregnancy test.'''
 
     def __init__(self, data):
-        self.data = data
+        Population.__init__(self, data)
 
 

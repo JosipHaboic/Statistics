@@ -5,7 +5,7 @@ def normalize(data: list) -> list:
     if magnitude == 0:
         magnitude = 1
     for index, value in enumerate(data):
-        data[index] = data[index] / magnitude
+        data[index] = value / magnitude
     return data
 
 DATA = [10, 2, 38, 23, 38, 23, 21]
@@ -33,10 +33,10 @@ test()
 
 
 
-print(QS.result['coefficient of variation'] == 59.99421870632576)
+print(QS.result['coefficient_of_variation'] == 59.99421870632576)
 print(QS.result)
 
 # with data normalized
 QS = QuantitativeSample(normalize(DATA))
-print(QS.result['coefficient of variation'] == 59.99421870632576)
+print(QS.result['coefficient_of_variation'] == 59.99421870632576)
 print(QS.result)

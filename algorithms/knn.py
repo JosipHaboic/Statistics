@@ -3,7 +3,17 @@ from csv import reader
 from sys import exit
 
 
+__all__ = ['KNN']
+
 class KNN:
+
+    @staticmethod
+    def normalize(data):
+        magnitude = sum(list(map(lambda x: x**2))) ** 0.5
+        if magnitude == 0:
+            return data
+        for index, value in enumerate(data):
+            data[index] = value / magnitude
 
     @staticmethod
     def convert_to_float(dataset: list, mode: str) -> list:
@@ -45,7 +55,7 @@ class KNN:
         return max(enumerate(votes), key=itemgetter(1))
 
     @staticmethod
-    def knn(training_set: list, test_set: list, k: int):
+    def knn(training_set: list, test_set: list, k: int) -> list:
         distances = []
         d = 0
         limit = len(training_set) - 1
@@ -65,9 +75,7 @@ class KNN:
                 neighbours = KNN.find_neighbours(distances, k)
 
                 index, value = KNN.find_response(neighbours, classes)
-
-                # print('The predicted class of sample {} is: {} '.format(test_instance, classes[index]))
-                # print('The number of votes: {} of {}'.format(value, k))
+                
                 predictions.append({
                     'test instance' : test_instance,
                     'classes' : classes[index],
@@ -80,7 +88,7 @@ class KNN:
         return predictions
 
     @staticmethod
-    def load_dataset(filename):
+    def load_csv_dataset(filename) -> list:
         try:
             with open(filename, newline='') as data:
                 return list(reader(data,delimiter=','))
@@ -89,9 +97,11 @@ class KNN:
 
 
 
+
+
 """
-TRAINING_SET = KNN.convert_to_float(KNN.load_dataset('iris-dataset.csv'), 'training')
-TEST_SET = KNN.convert_to_float(KNN.load_dataset('iris-test.csv'), 'test')
+TRAINING_SET = KNN.convert_to_float(KNN.load_csv_dataset('./example-datasets/iris-dataset.csv'), 'training')
+TEST_SET = KNN.convert_to_float(KNN.load_csv_dataset('./example-datasets/iris-test.csv'), 'test')
 
 if not TRAINING_SET:
     print('Error! No training set')
