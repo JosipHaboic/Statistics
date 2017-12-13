@@ -1,0 +1,109 @@
+from operator import itemgetter
+from csv import reader
+from sys import exit
+
+
+class KNN:
+
+    @staticmethod
+    def convert_to_float(dataset: list, mode: str) -> list:
+        new_set = []
+        try:
+            if mode == 'training':
+                for data in dataset:
+                    new_set.append([ float(x) for x in data[:len(data) - 1]] + [data[len(data) -1]])
+            elif mode == 'test':
+                for data in dataset:
+                    new_set.append([ float(x) for x in data ])
+            else:
+                print('Invalid mode, program will exit')
+                exit()
+            
+            return new_set
+
+        except ValueError as value_error:
+            print(value_error)
+            exit()
+
+    @staticmethod
+    def get_classes(training_set: list) -> list:
+        extracted = tuple(c[-1] for c in training_set)
+        return extracted
+
+    @staticmethod
+    def find_neighbours(distances: list, k: int) -> list:
+        return distances[0:k]
+
+    @staticmethod
+    def find_response(neighbours: list, classes: list) -> int:
+        votes = [0] * len(classes)
+
+        for instance in neighbours:
+            for ctr, c in enumerate(classes):
+                if instance[-2] == c:
+                    votes[ctr] += 1
+        return max(enumerate(votes), key=itemgetter(1))
+
+    @staticmethod
+    def knn(training_set: list, test_set: list, k: int):
+        distances = []
+        d = 0
+        limit = len(training_set) - 1
+
+        classes = KNN.get_classes(training_set)
+        predictions = []
+
+        try:
+            for test_instance in test_set:
+                for row in training_set:
+                    for x, y in zip(row[:limit], test_instance):
+                        d += (x - y) * (x - y)
+                    distances.append(row + [d ** 0.5])
+                    d = 0
+                distances.sort(key=itemgetter(len(distances[0]) - 1))
+
+                neighbours = KNN.find_neighbours(distances, k)
+
+                index, value = KNN.find_response(neighbours, classes)
+
+                # print('The predicted class of sample {} is: {} '.format(test_instance, classes[index]))
+                # print('The number of votes: {} of {}'.format(value, k))
+                predictions.append({
+                    'test instance' : test_instance,
+                    'classes' : classes[index],
+                    'votes' : {'value' : value, 'k' : k}
+                })
+                distances.clear()
+        except Exception as e:
+            print('Error occured: {}'.format(e))
+
+        return predictions
+
+    @staticmethod
+    def load_dataset(filename):
+        try:
+            with open(filename, newline='') as data:
+                return list(reader(data,delimiter=','))
+        except FileNotFoundError as e:
+            print(e)
+
+
+
+"""
+TRAINING_SET = KNN.convert_to_float(KNN.load_dataset('iris-dataset.csv'), 'training')
+TEST_SET = KNN.convert_to_float(KNN.load_dataset('iris-test.csv'), 'test')
+
+if not TRAINING_SET:
+    print('Error! No training set')
+if not TEST_SET:
+    print('Error! No test set')
+
+K = 3
+
+if K > len(TRAINING_SET):
+    print('Expected number of neighbors is higher than number of training data instances')
+    exit()
+
+knn = KNN.knn(TRAINING_SET, TEST_SET, K)
+print(knn)
+"""
