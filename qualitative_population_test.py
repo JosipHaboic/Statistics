@@ -16,21 +16,20 @@ def test1():
             )
         )
     
-    filteredValues1 = sorted(list(filterPunctation(list([character for character in LOREM_IPSUM]))))
-    filteredValues2 = sorted(list(filterPunctation(list([character for character in LOREM_IPSUM_EN]))))
+    FILTEREDVALUES1 = sorted(list(filterPunctation(list([character for character in LOREM_IPSUM]))))
+    FILTEREDVALUES2 = sorted(list(filterPunctation(list([character for character in LOREM_IPSUM_EN]))))
     
     
     
-    QS = QualitativePopulation(filteredValues1)
-    QS_EN = QualitativePopulation(filteredValues2)
+    QS = QualitativePopulation(FILTEREDVALUES1)
+    QS_EN = QualitativePopulation(FILTEREDVALUES2)
     
     print('Latin:')
-    pprint(QS.result)
+    pprint(QS.summary)
     print()
     print('English:')
-    pprint(QS_EN.result)
+    pprint(QS_EN.summary)
 
-# test1()
 
 def test2():
     MIN = 1
@@ -42,9 +41,11 @@ def test2():
     QP_B = QualitativePopulation(DATASET_B)
 
     print('A')
-    pprint(QP_A.result)
+    pprint(QP_A.summary)
     print()
     print('B')
-    pprint(QP_B.result)
+    pprint(QP_B.summary)
 
-test2()
+
+test1()
+# test2()

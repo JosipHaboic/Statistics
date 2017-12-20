@@ -1,5 +1,7 @@
+import numpy
 from quantitative_population import QuantitativePopulation
 from pprint import pprint
+from matplotlib import pyplot
 
 def normalize(data: list) -> list:
     magnitude = sum(map(lambda x: x**2, data)) ** 0.5
@@ -28,12 +30,16 @@ def test():
     assert round(QS.standard_error, 12) ==  STANDARD_ERROR_OF_MEAN
     print('TESTS PASSESD')
 
-test()
+# test()
 
 def test2():
-    from random import randint
-    DATA = [randint(-100,100) for x in range(100)]
+    from random import randint,random
+    DATA = [ 12*(x**3) - x**2 + 20*x + 10 for x in numpy.linspace(-1,1,200) ]
     QS = QuantitativePopulation(DATA)
-    pprint(QS.result)
+    pprint(QS.summary)
+    pyplot.grid()
+    pyplot.plot(QS, 'k-')
+    pyplot.show()
+
 
 test2()

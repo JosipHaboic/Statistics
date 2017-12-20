@@ -84,7 +84,6 @@ class QuantitativePopulation(Population):
         try:            
             harmonics = sum([1/x for x in self])
         except ZeroDivisionError as e:
-            print('Error occured: {}'.format(e))
             return float('nan')
         return n / harmonics
 
@@ -110,18 +109,16 @@ class QuantitativePopulation(Population):
 
     @property
     def mean_test(self):
+        result = None
         try:
             result = True if (self.min <= self.harmonic_mean <= self.geometric_mean <= self.mean <= self.max) else False
-        except TypeError:
-            return False
-        return {'passed' : result, 
-                'test' : '{} <= {} <= {} <= {} <= {}'.format(
-                    self.min,
-                    self.harmonic_mean,
-                    self.geometric_mean,
-                    self.mean,
-                    self.max)
-                }
+        except TypeError as e:
+            result = e
+
+        return {
+            'passed' : result, 
+            'test' : '{:+.2f} <= {:+.2f} <= {:+.2f} <= {:+.2f} <= {:+.2f}'.format(self.min,self.harmonic_mean,self.geometric_mean,self.mean,self.max)
+        }
 
     @property
     def variance(self) -> float:
@@ -189,6 +186,14 @@ class QuantitativePopulation(Population):
         if n and n > self.n:
             n = self.n
         return Counter(self).most_common(n)
+
+    @property
+    def negative_values(self):
+        return QuantitativePopulation(list(filter(lambda x: x < 0, self)))
+
+    @property
+    def positive_values(self):
+        return QuantitativePopulation(list(filter(lambda x: x > 0, self)))
         
     @property
     def summary(self) -> dict:
@@ -211,7 +216,11 @@ class QuantitativePopulation(Population):
             'standard_deviation' : self.standard_deviation,
             'standard_error' : self.standard_error,
             'coefficient_of_variation' : self.coefficient_of_variation,
-            'mean_test' : self.mean_test
+            'mean_test' : self.mean_test,
+            'number_of_positive_values' : self.positive_values.n,
+            'number_of_negative_values' : self.negative_values.n,
+            'sum_of_positive_values' : self.positive_values.sum,
+            'sum_of_negative_values' : self.negative_values.sum
         }
 
     @staticmethod
