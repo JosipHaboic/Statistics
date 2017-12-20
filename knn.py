@@ -94,26 +94,3 @@ class KNN:
                 return list(reader(data,delimiter=','))
         except FileNotFoundError as e:
             print(e)
-
-
-
-
-
-"""
-TRAINING_SET = KNN.convert_to_float(KNN.load_csv_dataset('./example-datasets/iris-dataset.csv'), 'training')
-TEST_SET = KNN.convert_to_float(KNN.load_csv_dataset('./example-datasets/iris-test.csv'), 'test')
-
-if not TRAINING_SET:
-    print('Error! No training set')
-if not TEST_SET:
-    print('Error! No test set')
-
-K = 3
-
-if K > len(TRAINING_SET):
-    print('Expected number of neighbors is higher than number of training data instances')
-    exit()
-
-knn = KNN.knn(TRAINING_SET, TEST_SET, K)
-print(knn)
-"""

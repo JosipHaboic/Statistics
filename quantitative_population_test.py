@@ -1,7 +1,8 @@
-from quantitative_sample import QuantitativeSample
+from quantitative_population import QuantitativePopulation
+from pprint import pprint
 
 def normalize(data: list) -> list:
-    magnitude = sum(list(map(lambda x: x**2, data))) ** 0.5
+    magnitude = sum(map(lambda x: x**2, data)) ** 0.5
     if magnitude == 0:
         magnitude = 1
     for index, value in enumerate(data):
@@ -9,8 +10,7 @@ def normalize(data: list) -> list:
     return data
 
 DATA = [10, 2, 38, 23, 38, 23, 21]
-QS = QuantitativeSample(DATA)
-
+QS = QuantitativePopulation(DATA)
 
 
 STANDARD_DEVIATION = round(13.284434142115, 12)
@@ -30,13 +30,10 @@ def test():
 
 test()
 
+def test2():
+    from random import randint
+    DATA = [randint(-100,100) for x in range(100)]
+    QS = QuantitativePopulation(DATA)
+    pprint(QS.result)
 
-
-
-print(QS.result['coefficient_of_variation'] == 59.99421870632576)
-print(QS.result)
-
-# with data normalized
-QS = QuantitativeSample(normalize(DATA))
-print(QS.result['coefficient_of_variation'] == 59.99421870632576)
-print(QS.result)
+test2()
