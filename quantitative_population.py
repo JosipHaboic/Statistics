@@ -121,9 +121,14 @@ class QuantitativePopulation(Population):
         }
 
     @property
+    def mean_deviation(self):
+        m = self.mean
+        return sum(map(lambda x: abs(x - m), self[:])) / self.n
+
+    @property
     def variance(self) -> float:
         mean = self.mean
-        return sum(map(lambda y: (y - mean)**2, self)) / (self.n - 1)
+        return sum(map(lambda y: (y - mean)**2, self)) / (self.n)
 
     @property
     def standard_deviation(self) -> float:
@@ -194,6 +199,10 @@ class QuantitativePopulation(Population):
     @property
     def positive_values(self):
         return QuantitativePopulation(list(filter(lambda x: x > 0, self)))
+
+    @property
+    def unique(self):
+        return QuantitativePopulation(set(self))
         
     @property
     def summary(self) -> dict:
@@ -209,6 +218,7 @@ class QuantitativePopulation(Population):
             'mode' : self.mode,
             'skewness' : self.skewness,
             'mean' : self.mean,
+            'mean_deviation' : self.mean_deviation,
             'geometric_mean' : self.geometric_mean,
             'harmonic_mean' : self.harmonic_mean,
             'median' : self.median,
@@ -224,15 +234,32 @@ class QuantitativePopulation(Population):
         }
 
     @staticmethod
-    def t_test(data_a: QuantitativePopulation, data_b: QuantitativePopulation) -> float:
-        n_a = data_a.n
-        n_b = data_b.n
-        mean_a = data_a.mean
-        mean_b = data_b.mean
-        std_a = data_a.standard_deviation
-        std_b = data_b.standard_deviation
+    def t_test(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
+        n_a = population_a.n
+        n_b = population_b.n
+        mean_a = population_a.mean
+        mean_b = population_b.mean
+        std_a = population_a.standard_deviation
+        std_b = population_b.standard_deviation
         return (mean_a - mean_b) / ((((std_a ** 2) / n_a) + ((std_b ** 2) / n_b)) ** 0.5)
 
     @staticmethod
-    def degrees_of_freedom(data_a: QuantitativePopulation, data_b: QuantitativePopulation) -> float:
-        return (data_a.n - 1) + (data_b.n - 1)
+    def degrees_of_freedom(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
+        return (population_a.n - 1) + (population_b.n - 1)
+
+    @staticmethod
+    def covariance(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
+        if population_a.n != population_b.n:
+            raise Exception('Populations not the same size.')
+        else:
+            n = population_a.n
+            mean_a = population_a.mean
+            mean_b = population_b.mean
+            return sum([(population_a[i] - mean_a) * (population_b[i] - mean_b) for i in range(n)]) / n
+        return float('nan')
+
+    @staticmethod
+    def linear_correlation(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
+        return QuantitativePopulation.covariance(population_a, population_b) / ((population_a.variance * population_b.variance) ** 0.5)
+
+    

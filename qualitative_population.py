@@ -27,13 +27,13 @@ class QualitativePopulation(Population):
         return sorted(relative_frequencies_list,key=lambda x: x[1], reverse=True)
 
     @property
+    def quantitatized_frequencies(self):
+        return QuantitativePopulation([x[0] for x in self.frequencies])
+
+    @property
     def summary(self) -> dict:
         return {
             'n' : self.n,
             'frequencies' : self.frequencies,
             'relative_frequencies' : self.relative_frequencies
         }
-
-    @property
-    def quantitatized_frequencies(self):
-        return QuantitativePopulation([x[0] for x in self.frequencies])
