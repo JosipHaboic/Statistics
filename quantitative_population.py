@@ -109,6 +109,7 @@ class QuantitativePopulation(Population):
 
     @property
     def mean_test(self):
+        ''' Test if the means are aligned. '''
         result = None
         try:
             result = True if (self.min <= self.harmonic_mean <= self.geometric_mean <= self.mean <= self.max) else False
@@ -122,21 +123,26 @@ class QuantitativePopulation(Population):
 
     @property
     def mean_deviation(self):
+        ''' Average of absolute differences (differences expressed without plus or minus sign)
+            between each value in a set of values, and the average of all values of that set. '''
         m = self.mean
         return sum(map(lambda x: abs(x - m), self[:])) / self.n
 
     @property
     def variance(self) -> float:
+        ''' A measure of data dispersion. '''
         mean = self.mean
         return sum(map(lambda y: (y - mean)**2, self)) / (self.n)
 
     @property
     def standard_deviation(self) -> float:
+        ''' The square root of variance. '''
         v = self.variance
         return v ** 0.5
 
     @property
     def range(self) -> float:
+        ''' The difference between maximum and minimum. '''
         return max(self) - min(self)
 
     @property
@@ -146,10 +152,12 @@ class QuantitativePopulation(Population):
 
     @property
     def skewness(self):
+        ''' A measure of symmetry or asymmetry in the distribution of data. '''
         return (3 * (self.mean - self.median)) / self.standard_deviation
     
     @property
     def coefficient_of_variation(self) -> float:
+        ''' A measure of data dispersion divided by mean. '''
         return (self.standard_deviation / self.mean) * 100
 
     @property
@@ -178,6 +186,9 @@ class QuantitativePopulation(Population):
 
     @property
     def standard_error(self) -> float:
+        ''' The standard error (SE) of a parameter is the standard deviation 
+            of its sampling distribution or an estimate of the standard deviation.
+            If the parameter or the statistic is the mean, it is called the standard error of the mean (SEM)'''
         return self.standard_deviation / (self.n ** 0.5)
 
     @property
@@ -235,6 +246,8 @@ class QuantitativePopulation(Population):
 
     @staticmethod
     def t_test(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
+        ''' The t-test can be used, for example, 
+            to determine if two sets of data are significantly different from each other. '''
         n_a = population_a.n
         n_b = population_b.n
         mean_a = population_a.mean
@@ -245,10 +258,22 @@ class QuantitativePopulation(Population):
 
     @staticmethod
     def degrees_of_freedom(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
+        ''' the number of degrees of freedom is the number of values in 
+            the final calculation of a statistic that are free to vary. '''
         return (population_a.n - 1) + (population_b.n - 1)
 
     @staticmethod
     def covariance(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
+        ''' In probability theory and statistics, covariance is a measure of the joint 
+            variability of two random variables.If the greater values of one variable mainly 
+            correspond with the greater values of the other variable,
+            and the same holds for the lesser values, i.e., the variables tend
+            to show similar behavior, the covariance is positive.
+            In the opposite case, when the greater values of one variable mainly correspond to
+            the lesser values of the other, i.e., the variables tend to show opposite behavior, the covariance is negative. 
+            The sign of the covariance therefore shows the tendency in the linear relationship between the variables.
+            The magnitude of the covariance is not easy to interpret because it is not normalized
+            and hence depends on the magnitudes of the variables. '''
         if population_a.n != population_b.n:
             raise Exception('Populations not the same size.')
         else:
@@ -260,6 +285,6 @@ class QuantitativePopulation(Population):
 
     @staticmethod
     def linear_correlation(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
-        return QuantitativePopulation.covariance(population_a, population_b) / ((population_a.variance * population_b.variance) ** 0.5)
+        return QuantitativePopulation.covariance(population_a, population_b) / (population_a.standard_deviation * population_b.standard_deviation)
 
     

@@ -6,10 +6,10 @@ def continous_uniform_distribution(min, max):
             return 0
     return f
 
-def cud_mean(min, max):
+def continous_uniform_distribution_mean(min, max):
     return (max + min) / 2
 
-def cud_variance(min, max):
+def continous_uniform_distribution_variance(min, max):
     return ((max - min) ** 2) / 12
 
 def convert_to_ones_and_zeroes(dataset: list) -> list:
@@ -26,3 +26,5 @@ def bernoulli_mean(p: float) -> float:
 
 def bernoulli_variance(p: float) -> float:
     return p * (1 - p)
+
+
