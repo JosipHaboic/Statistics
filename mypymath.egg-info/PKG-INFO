@@ -1,0 +1,17 @@
+Metadata-Version: 1.1
+Name: mypymath
+Version: 0.0.1
+Summary: Python statistics and some other math
+Home-page: UNKNOWN
+Author: Josip Haboic
+Author-email: josiphaboic@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Keywords: statistics math
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Statisctics
+Classifier: License :: None
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
