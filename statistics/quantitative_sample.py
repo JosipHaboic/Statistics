@@ -1,4 +1,4 @@
-from quantitative_population import QuantitativePopulation
+from . quantitative_population import QuantitativePopulation
 
 
 class QuantitativeSample:pass
