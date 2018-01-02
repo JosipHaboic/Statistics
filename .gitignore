@@ -3,4 +3,6 @@ StatisticsWiki.pdf
 .vscode
 algorithms/data
 algorithms/knn_test.py
-
+setup.py
+**__pycache__
+.gitignore
