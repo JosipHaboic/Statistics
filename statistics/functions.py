@@ -1,5 +1,19 @@
+from types import FunctionType
 
-def continous_uniform_distribution(min, max):
+__all__ = [
+    'continous_uniform_distribution',
+    'continous_uniform_distribution_mean',
+    'continous_uniform_distribution_variance',
+    'convert_to_ones_and_zeroes',
+    'bernoulli',
+    'bernoulli_mean',
+    'bernoulli_variance',
+    'unit_step',
+    'sigmoid',
+    'piecewise_linear'
+]
+
+def continous_uniform_distribution(min, max) -> FunctionType:
     def f(x):
         if min <= x <= max:
             return 1 / (max - min)
@@ -28,19 +42,19 @@ def bernoulli_mean(p: float) -> float:
 def bernoulli_variance(p: float) -> float:
     return p * (1 - p)
 
-def unit_step(x):
+def unit_step(x) -> int:
     if x < 0:
         return 0
     else:
         return 1
 
-def sigmoid(beta):
+def sigmoid(beta) -> FunctionType:
     from math import exp
     def f(x):
         return 1 / (1 + exp(-beta*x))
     return f
 
-def piecewise_linear(a, b, min_x, max_x):
+def piecewise_linear(a, b, min_x, max_x) -> FunctionType:
     def f(x):
         if x <= min_x:
             return 0
@@ -48,5 +62,6 @@ def piecewise_linear(a, b, min_x, max_x):
             return a*x + b
         else:
             return 1
+    return f
 
         

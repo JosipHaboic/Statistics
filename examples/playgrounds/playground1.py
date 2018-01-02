@@ -16,7 +16,7 @@ QP = QuantitativeSample(CLEAN_DATA)
 print('Index potrosackih cjena')
 pprint(QP.summary)
 
-pyplot.plot(QP, 'r-')
+pyplot.plot(QP, 'ko')
 pyplot.grid()
 pyplot.show()
 

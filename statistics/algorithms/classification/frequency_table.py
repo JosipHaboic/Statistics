@@ -1,5 +1,5 @@
 class FrequencyTable:
-
+    ''' Frequency tables tell you how often something occurs in a set of data. '''
     def __init__(self, data):
         self.data = data
         self.labels, self.ft = FrequencyTable.frequency_table(self.data)

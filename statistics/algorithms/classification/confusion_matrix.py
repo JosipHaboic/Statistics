@@ -4,12 +4,21 @@ Project: classification
 File Created: Sunday, 24th December 2017 7:30:48 pm
 Author: Josip Haboic (josiphaboic@gmail.com)
 -----
-Last Modified: Sunday, 24th December 2017 7:30:55 pm
-Modified By: Josip Haboic (josiphaboic@gmail.com>)
+Last Modified: Sat Dec 30 2017
+Modified By: Josip Haboic
 '''
 
 class ConfusionMatrix:
-
+    ''' In the field of machine learning and specifically the problem of statistical classification,
+        a confusion matrix, also known as an error matrix, is a specific table layout that allows
+        visualization of the performance of an algorithm, typically a supervised learning one 
+        (in unsupervised learning it is usually called a matching matrix). 
+        Each row of the matrix represents the instances in a predicted class while each column represents
+        the instances in an actual class (or vice versa).The name stems from the fact that it makes
+        it easy to see if the system is confusing two classes (i.e. commonly mislabelling one as another).
+        It is a special kind of contingency table, with two dimensions ("actual" and "predicted"),
+        and identical sets of "classes" in both dimensions (each combination of dimension and class
+        is a variable in the contingency table). '''
     def __init__(self, table_data, labels):
         self.table_name = table_data[0]
         self._table = table_data[1:][0]

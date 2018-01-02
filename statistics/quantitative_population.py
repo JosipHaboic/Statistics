@@ -110,12 +110,11 @@ class QuantitativePopulation(Population):
         return (self.max + self.min) / 2
 
     @property
-    def mean_test(self):
+    def mean_test(self) -> dict:
         ''' Test if the means are aligned. '''
         result = None
         try:
-            result = True if (self.min <= self.harmonic_mean <=
-                              self.geometric_mean <= self.mean <= self.max) else False
+            result = True if (self.min <= self.harmonic_mean <= self.geometric_mean <= self.mean <= self.max) else False
         except TypeError as e:
             result = e
 
@@ -125,11 +124,11 @@ class QuantitativePopulation(Population):
         }
 
     @property
-    def mean_deviation(self):
+    def mean_deviation(self) -> float:
         ''' Average of absolute differences (differences expressed without plus or minus sign)
             between each value in a set of values, and the average of all values of that set. '''
         m = self.mean
-        return sum(map(lambda x: abs(x - m), self[:])) / self.n
+        return sum(map(lambda x: abs(x - m), self)) / self.n
 
     @property
     def variance(self) -> float:
@@ -140,8 +139,7 @@ class QuantitativePopulation(Population):
     @property
     def standard_deviation(self) -> float:
         ''' The square root of variance. '''
-        v = self.variance
-        return v ** 0.5
+        return self.variance ** 0.5
 
     @property
     def range(self) -> float:
@@ -171,7 +169,7 @@ class QuantitativePopulation(Population):
 
     @property
     def coefficient_of_variation(self) -> float:
-        ''' A measure of data dispersion divided by mean. '''
+        ''' A measure of data dispersion divided by mean in percents. '''
         return (self.standard_deviation / self.mean) * 100
 
     @property
