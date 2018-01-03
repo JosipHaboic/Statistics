@@ -6,7 +6,7 @@ from pymymath.statistics.quantitative_population import QuantitativePopulation
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 DATA = None
-with open('GENERATED_DATASET.json', 'r') as fp:
+with open('../data/GENERATED_DATASET.json', 'r') as fp:
     DATA = json.loads(fp.read())
 
 

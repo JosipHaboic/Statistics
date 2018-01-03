@@ -71,7 +71,7 @@ class LottoData:
     
 
 
-LOTO_2017 = xlrd.open_workbook('Loto7od39_2017.xls').sheets()
+LOTO_2017 = xlrd.open_workbook('../data/Loto7od39_2017.xls').sheets()
 DATA = list(LOTO_2017[0].get_rows())[1:]
 del DATA[1]
 

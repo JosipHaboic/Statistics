@@ -7,7 +7,7 @@ from matplotlib import pyplot
 from pymymath.statistics.quantitative_sample import QuantitativeSample
 
 
-with open('ME_PS2.json', 'r') as fp:
+with open('../data/ME_PS2.json', 'r') as fp:
     DATA = json.loads(fp.read())
 
 
