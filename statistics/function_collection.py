@@ -64,4 +64,3 @@ def piecewise_linear(a, b, min_x, max_x) -> FunctionType:
             return 1
     return f
 
-        

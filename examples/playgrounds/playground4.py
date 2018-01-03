@@ -1,6 +1,20 @@
+import json
+import os
+from pprint import pprint
+from matplotlib import pyplot
 from pymymath.statistics.quantitative_population import QuantitativePopulation
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+DATA = None
+with open('GENERATED_DATASET.json', 'r') as fp:
+    DATA = json.loads(fp.read())
 
 
+QS = QuantitativePopulation(DATA['positives'])
+pprint(QS.summary)
 
-qp = QuantitativePopulation([1,2,3,4,5])
-print(qp.standard_error)
+# pyplot.grid()
+# pyplot.plot(DATA['positives'], 'k-')
+# pyplot.show()
+# qp = QuantitativePopulation()
+# pprint(qp.summary)

@@ -55,7 +55,11 @@ class QuantitativePopulation(Population):
             The arithmetic mean is relevant any time several quantities add together to produce a total.
             The arithmetic mean answers the question, "if all the quantities had the same value, what
             would that value have to be in order to achieve the same total?" '''
-        return sum(self) / self.n
+        try:
+            return sum(self) / self.n
+        except ZeroDivisionError as e:
+            print(e)
+            return float('nan')
 
     @property
     def geometric_mean(self) -> float:
@@ -67,7 +71,8 @@ class QuantitativePopulation(Population):
             what would that value have to be in order to achieve the same product?"'''
         try:
             return reduce(mul, self) ** (1 / len(self))
-        except OverflowError:
+        except (OverflowError, ZeroDivisionError) as e:
+            print(e)
             return float('nan')
 
     @property
@@ -86,6 +91,7 @@ class QuantitativePopulation(Population):
         try:
             harmonics = sum([1 / x for x in self])
         except ZeroDivisionError as e:
+            print(e)
             return float('nan')
         return n / harmonics
 
@@ -128,13 +134,21 @@ class QuantitativePopulation(Population):
         ''' Average of absolute differences (differences expressed without plus or minus sign)
             between each value in a set of values, and the average of all values of that set. '''
         m = self.mean
-        return sum(map(lambda x: abs(x - m), self)) / self.n
+        try:
+            return sum(map(lambda x: abs(x - m), self)) / self.n
+        except ZeroDivisionError as e:
+            print(e)
+            return float('nan')
 
     @property
     def variance(self) -> float:
         ''' A measure of data dispersion. '''
         mean = self.mean
-        return sum(map(lambda x: (x - mean)**2, self)) / (self.n)
+        try:
+            return sum(map(lambda x: (x - mean)**2, self)) / (self.n)
+        except ZeroDivisionError as e:
+            print(e)
+            return float('nan')
 
     @property
     def standard_deviation(self) -> float:
@@ -157,7 +171,11 @@ class QuantitativePopulation(Population):
         mean = self.mean
         std = self.standard_deviation
         n = self.n
-        return (n / ((n - 1) * (n - 2))) * sum(map(lambda x: ((x - mean) / std) ** 3, self))
+        try:
+            return (n / ((n - 1) * (n - 2))) * sum(map(lambda x: ((x - mean) / std) ** 3, self))
+        except ZeroDivisionError as e:
+            print(e)
+            return float('nan')
 
     @property
     def kurtosis(self):
@@ -165,12 +183,20 @@ class QuantitativePopulation(Population):
         mean = self.mean
         std = self.standard_deviation
         n = self.n
-        return sum(map(lambda x: (x - mean) ** 4, self)) / ((n - 1) * std ** 4)
+        try:
+            return sum(map(lambda x: (x - mean) ** 4, self)) / ((n - 1) * std ** 4)
+        except ZeroDivisionError as e:
+            print(e)
+            return float('nan')
 
     @property
     def coefficient_of_variation(self) -> float:
         ''' A measure of data dispersion divided by mean in percents. '''
-        return (self.standard_deviation / self.mean) * 100
+        try:
+            return (self.standard_deviation / self.mean) * 100
+        except ZeroDivisionError as e:
+            print(e)
+            return float('nan')
 
     @property
     def min(self) -> float:
@@ -201,13 +227,21 @@ class QuantitativePopulation(Population):
         ''' The standard error (SE) of a parameter is the standard deviation 
             of its sampling distribution or an estimate of the standard deviation.
             If the parameter or the statistic is the mean, it is called the standard error of the mean (SEM)'''
-        return self.standard_deviation / (self.n ** 0.5)
+        try:
+            return self.standard_deviation / (self.n ** 0.5)
+        except ZeroDivisionError as e:
+            print(e)
+            return float('nan')
 
     @property
     def standard_normal_distribution(self):
         mean = self.mean
         std = self.standard_deviation
-        return QuantitativePopulation([(x - mean) / std for x in self])
+        try:
+            return QuantitativePopulation([(x - mean) / std for x in self])
+        except ZeroDivisionError as e:
+            print(e)
+            return float('nan')
 
     def most_common(self, n=None):
         if n and n > self.n:
