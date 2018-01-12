@@ -15,7 +15,7 @@ from collections import Counter
 from functools import reduce
 from operator import mul
 import math
-from . abstract.population import Population
+from abstract.population import Population
 
 __all__ = ['QuantitativePopulation']
 

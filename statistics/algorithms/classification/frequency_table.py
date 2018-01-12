@@ -13,6 +13,7 @@ class FrequencyTable:
     def frequency_table(dataset):
         ft = {}
         labels = None
+        
         for k, v in dataset.items():
             ft[k] = []
             predictor_contribution = [0,0]

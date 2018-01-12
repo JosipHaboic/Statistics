@@ -46,4 +46,4 @@ def test2():
     pprint(HUMIDITY.summary)
     print()
 
-test2()
+# test2()
