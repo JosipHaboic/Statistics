@@ -1,3 +1,5 @@
+from abc import abstractproperty
+
 class Population(list):
     def __init__(self, data=[]):
         list.__init__(self, data)
@@ -32,3 +34,101 @@ class ConceptualPopulation(Population):
 
     def __init__(self, data):
         Population.__init__(self, data)
+
+
+class IQuantitativePopulation(Population):
+
+    @abstractproperty
+    def n(self):pass
+
+    @abstractproperty
+    def mean(self):pass
+
+    @abstractproperty
+    def geometric_mean(self):pass
+
+    @abstractproperty
+    def harmonic_mean(self):pass
+
+    @abstractproperty
+    def median(self):pass
+
+    @abstractproperty
+    def midrange(self):pass
+
+    @abstractproperty
+    def mean_test(self):pass
+
+    @abstractproperty
+    def mean_deviation(self):pass
+
+    @abstractproperty
+    def variance(self):pass
+
+    @abstractproperty
+    def standard_deviation(self):pass
+
+    @abstractproperty
+    def range(self):pass
+
+    @abstractproperty
+    def mode(self):pass
+
+    @abstractproperty
+    def skewness(self):pass
+
+    @abstractproperty
+    def kurtosis(self):pass
+
+    @abstractproperty
+    def coefficient_of_variation(self):pass
+
+    @abstractproperty
+    def min(self):pass
+
+    @abstractproperty
+    def max(self):pass
+
+    @abstractproperty
+    def sum(self):pass
+
+    @abstractproperty
+    def squared_sum(self):pass
+
+    @abstractproperty
+    def sum_of_squares(self):pass
+
+    @abstractproperty
+    def standard_error(self):pass
+
+    @abstractproperty
+    def negative_values(self):pass
+
+    @abstractproperty
+    def positive_values(self):pass
+
+    @abstractproperty
+    def unique(self):pass
+
+    @abstractproperty
+    def summary(self):pass
+
+
+
+class IQualitativePopulation(Population):
+
+    @abstractproperty
+    def frequencies(self):pass
+
+    @abstractproperty
+    def relative_frequencies(self):pass
+
+    @abstractproperty
+    def quantitatized_frequencies(self):pass
+
+    @abstractproperty
+    def summary(self):pass
+
+    @abstractproperty
+    def summary(self):pass
+

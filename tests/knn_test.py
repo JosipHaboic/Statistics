@@ -1,7 +1,5 @@
-import os
-from knn import KNN
+from pymymath.statistics.algorithms.classification.knn import KNN
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 TRAINING_DATA = [
     [255, 255, 255, 'white'],

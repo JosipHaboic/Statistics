@@ -15,13 +15,10 @@ from collections import Counter
 from functools import reduce
 from operator import mul
 import math
-from abstract.population import Population
+from . abstract.population import Population, IQuantitativePopulation
 
 __all__ = ['QuantitativePopulation']
 
-
-class QuantitativePopulation:
-    pass
 
 
 class QuantitativePopulation(Population):
@@ -234,7 +231,7 @@ class QuantitativePopulation(Population):
             return float('nan')
 
     @property
-    def standard_normal_distribution(self):
+    def standard_normal_distribution(self) -> IQuantitativePopulation:
         mean = self.mean
         std = self.standard_deviation
         try:
@@ -291,7 +288,7 @@ class QuantitativePopulation(Population):
         }
 
     @staticmethod
-    def t_test(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
+    def t_test(population_a: IQuantitativePopulation, population_b: IQuantitativePopulation) -> float:
         ''' The t-test can be used, for example, 
             to determine if two sets of data are significantly different from each other. '''
         n_a = population_a.n
@@ -303,13 +300,13 @@ class QuantitativePopulation(Population):
         return (mean_a - mean_b) / ((((std_a ** 2) / n_a) + ((std_b ** 2) / n_b)) ** 0.5)
 
     @staticmethod
-    def degrees_of_freedom(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
+    def degrees_of_freedom(population_a: IQuantitativePopulation, population_b: IQuantitativePopulation) -> float:
         ''' the number of degrees of freedom is the number of values in 
             the final calculation of a statistic that are free to vary. '''
         return (population_a.n - 1) + (population_b.n - 1)
 
     @staticmethod
-    def covariance(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
+    def covariance(population_a: IQuantitativePopulation, population_b: IQuantitativePopulation) -> float:
         ''' In probability theory and statistics, covariance is a measure of the joint 
             variability of two random variables.If the greater values of one variable mainly 
             correspond with the greater values of the other variable,
@@ -330,14 +327,14 @@ class QuantitativePopulation(Population):
         return float('nan')
 
     @staticmethod
-    def linear_correlation(population_a: QuantitativePopulation, population_b: QuantitativePopulation) -> float:
+    def linear_correlation(population_a: IQuantitativePopulation, population_b: IQuantitativePopulation) -> float:
         ''' Linear correlation refers to straight-line relationships between two variables.
             A correlation can range between -1 (perfect negative relationship) and +1 (perfect positive relationship),
             with 0 indicating no straight-line relationship '''
         return QuantitativePopulation.covariance(population_a, population_b) / (population_a.standard_deviation * population_b.standard_deviation)
 
     @staticmethod
-    def correlation_coefficient(population_a: QuantitativePopulation, population_b: QuantitativePopulation):
+    def correlation_coefficient(population_a: IQuantitativePopulation, population_b: IQuantitativePopulation):
         ''' Alias for linear_correlation.
             Correlation coefficient refers to straight-line relationships between two variables.
             A correlation can range between -1 (perfect negative relationship) and +1 (perfect positive relationship),
