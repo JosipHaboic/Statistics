@@ -4,16 +4,21 @@ from ... quantitative_sample import QuantitativeSample
 class UnsupervisedBinning:
 
     @staticmethod
-    def equal_width_binning(dataset: QuantitativePopulation, k: int):
+    def equal_width_binning(dataset: list, k: int):
+        from math import ceil
         ''' The algorithm divides the data into k intervals of equal size. '''
-        W = (dataset.max - dataset.min) / k
-        MIN = dataset.min
-        NUMBER_OF_INTERVALS = int(dataset.n / W)
+        N = len(dataset)
+        BIN_WIDTH = ceil(N / k)
+        NUMBER_OF_BINS = ceil(N / BIN_WIDTH)
 
-        current_interval = 0
+        current_bin = 0
 
-        while current_interval < NUMBER_OF_INTERVALS:
+        while current_bin < NUMBER_OF_BINS:
+            slice_start = current_bin * BIN_WIDTH 
+            slide_end = (current_bin + 1) * BIN_WIDTH
+
             yield QuantitativeSample(
-                dataset[int(MIN + current_interval * W):int(MIN + (current_interval + 1) * W)]
+                dataset[slice_start:slide_end]
                 )
-            current_interval += 1
+
+            current_bin += 1
