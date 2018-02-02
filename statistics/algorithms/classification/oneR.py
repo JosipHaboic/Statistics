@@ -1,14 +1,3 @@
-'''
-File: oneR.py
-Project: algorithms
-File Created: Saturday, 23rd December 2017 7:27:15 pm
-Author: Josip Haboic (josiphaboic@gmail.com)
------
-Last Modified: Saturday, 23rd December 2017 7:46:15 pm
-Modified By: Josip Haboic (josiphaboic@gmail.com>)
-'''
-
-
 def prepare(data):
     ''' Split data to labels and dataset.
         Assume that lables are at data[0] '''

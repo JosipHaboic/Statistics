@@ -1,12 +1,12 @@
 import json
 from os import chdir
 from os.path import dirname, abspath
-chdir(dirname(abspath(__file__)))
 from pprint import pprint
 from matplotlib import pyplot
 from pymymath.statistics.quantitative_sample import QuantitativeSample
 
 
+chdir(dirname(abspath(__file__)))
 with open('../data/ME_PS2.json', 'r') as fp:
     DATA = json.loads(fp.read())
 

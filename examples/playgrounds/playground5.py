@@ -19,7 +19,10 @@ pprint(QP.summary)
 print()
 
 BINNED = [binned for  binned in UnsupervisedBinning.equal_width_binning(QP, 8)]
+print('Binned population to 8 bins')
+assert len(BINNED) == 8
 pprint(BINNED)
 
 AVERAGES = [binned.mean for binned in BINNED]
+print('Means of binns')
 print(AVERAGES)
