@@ -1,10 +1,10 @@
 from collections import Counter
-from . abstract.population import Population
+from . abstract.population import AbstractQualitativePopulation
 from . quantitative_population import QuantitativePopulation
 
 __all__ = ['QualitativePopulation']
 
-class QualitativePopulation(Population):
+class QualitativePopulation(AbstractQualitativePopulation):
 
     def __init__(self, data):
         Population.__init__(self, data)
@@ -19,10 +19,10 @@ class QualitativePopulation(Population):
 
     @property
     def relative_frequencies(self) -> list:
-        n = self.n
+        N = self.n
         relative_frequencies_list = []
         for element, frequency in self.frequencies:
-            relative_frequency = frequency / n
+            relative_frequency = frequency / N
             relative_frequencies_list.append((element, relative_frequency, relative_frequency * 100))
         return sorted(relative_frequencies_list,key=lambda x: x[1], reverse=True)
 

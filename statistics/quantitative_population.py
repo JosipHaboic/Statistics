@@ -15,10 +15,9 @@ from collections import Counter
 from functools import reduce
 from operator import mul
 import math
-from . abstract.population import Population, IQuantitativePopulation
+from . abstract.population import Population, AbstractQuantitativePopulation
 
 __all__ = ['QuantitativePopulation']
-
 
 
 class QuantitativePopulation(Population):
@@ -29,14 +28,13 @@ class QuantitativePopulation(Population):
        Quantitative data always are associated with a scale measure.
     '''
 
-    def __init__(self, data=[], assumed_mean=0):
+    def __init__(self, data=[]):
         Population.__init__(self, data)
-        self.assumed_mean = assumed_mean
 
     def normalize(self):
         '''Normalize values in dataset so they are in range 0-1'''
-        m = self.mean
-        if m == 0:
+        MEAN = self.mean
+        if MEAN == 0:
             return
         for index, value in enumerate(self):
             self[index] = self[index] / m
@@ -84,27 +82,27 @@ class QuantitativePopulation(Population):
             [1] while the arithmetic mean is always the greatest of the three and the geometric mean is always in between.
             (If all values in a nonempty dataset are equal, the three means are always equal to one another; 
             e.g., the harmonic, geometric, and arithmetic means of {2, 2, 2} are all 2.) '''
-        n = self.n
+        N = self.n
         try:
-            harmonics = sum([1 / x for x in self])
+            HARMONICS = sum([1 / x for x in self])
         except ZeroDivisionError as e:
             print(e)
             return float('nan')
-        return n / harmonics
+        return N / HARMONICS
 
     @property
     def median(self) -> float:
         ''' The median is the "middle value" in a set. That is, the median is the number in the center
             of a data set that has been ordered sequentially.'''
-        d = sorted(self)
+        SORTED = sorted(self)
         if self.n % 2 == 0:
             i = (self.n + 1) / 2
             left = math.floor(i)
             right = math.ceil(i)
-            return (d[left - 1] + d[right - 1]) / 2
+            return (SORTED[left - 1] + SORTED[right - 1]) / 2
         else:
             i = int((self.n + 1) / 2)
-            return d[i - 1]
+            return SORTED[i - 1]
 
     @property
     def midrange(self):
@@ -117,7 +115,8 @@ class QuantitativePopulation(Population):
         ''' Test if the means are aligned. '''
         result = None
         try:
-            result = True if (self.min <= self.harmonic_mean <= self.geometric_mean <= self.mean <= self.max) else False
+            result = True if (self.min <= self.harmonic_mean <=
+                              self.geometric_mean <= self.mean <= self.max) else False
         except TypeError as e:
             result = e
 
@@ -130,9 +129,9 @@ class QuantitativePopulation(Population):
     def mean_deviation(self) -> float:
         ''' Average of absolute differences (differences expressed without plus or minus sign)
             between each value in a set of values, and the average of all values of that set. '''
-        m = self.mean
+        MEAN = self.mean
         try:
-            return sum(map(lambda x: abs(x - m), self)) / self.n
+            return sum(map(lambda x: abs(x - MEAN), self)) / self.n
         except ZeroDivisionError as e:
             print(e)
             return float('nan')
@@ -140,9 +139,9 @@ class QuantitativePopulation(Population):
     @property
     def variance(self) -> float:
         ''' A measure of data dispersion. '''
-        mean = self.mean
+        MEAN = self.mean
         try:
-            return sum(map(lambda x: (x - mean)**2, self)) / (self.n)
+            return sum(map(lambda x: (x - MEAN)**2, self)) / (self.n)
         except ZeroDivisionError as e:
             print(e)
             return float('nan')
@@ -165,11 +164,11 @@ class QuantitativePopulation(Population):
     @property
     def skewness(self):
         ''' A measure of symmetry or asymmetry in the distribution of data. '''
-        mean = self.mean
-        std = self.standard_deviation
-        n = self.n
+        MEAN = self.mean
+        STANDARD_DEVIATION = self.standard_deviation
+        N = self.n
         try:
-            return (n / ((n - 1) * (n - 2))) * sum(map(lambda x: ((x - mean) / std) ** 3, self))
+            return (N / ((N - 1) * (N - 2))) * sum(map(lambda x: ((x - MEAN) / STANDARD_DEVIATION) ** 3, self))
         except ZeroDivisionError as e:
             print(e)
             return float('nan')
@@ -177,11 +176,11 @@ class QuantitativePopulation(Population):
     @property
     def kurtosis(self):
         ''' A measure of whether the data are peaked or flat relative to a normal distribution. '''
-        mean = self.mean
-        std = self.standard_deviation
-        n = self.n
+        MEAN = self.mean
+        STANDARD_DEVIATION = self.standard_deviation
+        N = self.n
         try:
-            return sum(map(lambda x: (x - mean) ** 4, self)) / ((n - 1) * std ** 4)
+            return sum(map(lambda x: (x - MEAN) ** 4, self)) / ((N - 1) * STANDARD_DEVIATION ** 4)
         except ZeroDivisionError as e:
             print(e)
             return float('nan')
@@ -231,11 +230,11 @@ class QuantitativePopulation(Population):
             return float('nan')
 
     @property
-    def standard_normal_distribution(self) -> IQuantitativePopulation:
-        mean = self.mean
-        std = self.standard_deviation
+    def standard_normal_distribution(self) -> AbstractQuantitativePopulation:
+        MEAN = self.mean
+        STANDARD_DEVIATION = self.standard_deviation
         try:
-            return QuantitativePopulation([(x - mean) / std for x in self])
+            return QuantitativePopulation([(x - MEAN) / STANDARD_DEVIATION for x in self])
         except ZeroDivisionError as e:
             print(e)
             return float('nan')
@@ -288,25 +287,44 @@ class QuantitativePopulation(Population):
         }
 
     @staticmethod
-    def t_test(population_a: IQuantitativePopulation, population_b: IQuantitativePopulation) -> float:
+    def z_test(population1: AbstractQuantitativePopulation, population2: AbstractQuantitativePopulation) -> float:
         ''' The t-test can be used, for example, 
-            to determine if two sets of data are significantly different from each other. '''
-        n_a = population_a.n
-        n_b = population_b.n
-        mean_a = population_a.mean
-        mean_b = population_b.mean
-        std_a = population_a.standard_deviation
-        std_b = population_b.standard_deviation
-        return (mean_a - mean_b) / ((((std_a ** 2) / n_a) + ((std_b ** 2) / n_b)) ** 0.5)
+            to determine if two sets of data are significantly different from each other.
+            Use this method when your data size is > 30 items. '''
+        N1 = population1.n
+        N2 = population2.n
+        MEAN1 = population1.mean
+        MEAN2 = population2.mean
+        VARIANCE1 = population1.variance
+        VARIANCE2 = population2.variance
+        return (MEAN1 - MEAN2) / ((((VARIANCE1 ** 2) / N1) + ((VARIANCE2 ** 2) / N2)) ** 0.5)
 
     @staticmethod
-    def degrees_of_freedom(population_a: IQuantitativePopulation, population_b: IQuantitativePopulation) -> float:
+    def t_test(population1: AbstractQuantitativePopulation, population2: AbstractQuantitativePopulation) -> float:
+        ''' The t-test can be used, for example, 
+            to determine if two sets of data are significantly different from each other.
+            Use this method when your data size is <= 30 items. '''
+        N1 = population1.n
+        N2 = population2.n
+        MEAN1 = population1.mean
+        MEAN2 = population2.mean
+        VARIANCE1 = population1.variance
+        VARIANCE2 = population2.variance
+        DEGREES_OF_FREEDOM = N1 + N2 - 2
+        COMMON_VARIANCE_SQUARED = (
+            ((N1 - 1) * VARIANCE1) + ((N2 - 1) * VARIANCE2)) / (DEGREES_OF_FREEDOM)
+        T = (MEAN1 - MEAN2) / \
+            ((COMMON_VARIANCE_SQUARED * (1 / N1 + 1 / N2)) ** 0.5)
+        return T
+
+    @staticmethod
+    def degrees_of_freedom(population1: AbstractQuantitativePopulation, population2: AbstractQuantitativePopulation) -> float:
         ''' the number of degrees of freedom is the number of values in 
             the final calculation of a statistic that are free to vary. '''
-        return (population_a.n - 1) + (population_b.n - 1)
+        return (population1.n - 1) + (population2.n - 1)
 
     @staticmethod
-    def covariance(population_a: IQuantitativePopulation, population_b: IQuantitativePopulation) -> float:
+    def covariance(population1: AbstractQuantitativePopulation, population2: AbstractQuantitativePopulation) -> float:
         ''' In probability theory and statistics, covariance is a measure of the joint 
             variability of two random variables.If the greater values of one variable mainly 
             correspond with the greater values of the other variable,
@@ -317,26 +335,26 @@ class QuantitativePopulation(Population):
             The sign of the covariance therefore shows the tendency in the linear relationship between the variables.
             The magnitude of the covariance is not easy to interpret because it is not normalized
             and hence depends on the magnitudes of the variables. '''
-        if population_a.n != population_b.n:
-            raise Exception('Populations not the same size.')
+        if population1.n != population2.n:
+            raise Exception('Populations not of the same size.')
         else:
-            n = population_a.n
-            mean_a = population_a.mean
-            mean_b = population_b.mean
-            return sum([(population_a[i] - mean_a) * (population_b[i] - mean_b) for i in range(n)]) / n
+            N = population1.n
+            MEAN1 = population1.mean
+            MEAN2 = population2.mean
+            return sum([(population1[i] - MEAN1) * (population2[i] - MEAN2) for i in range(N)]) / N
         return float('nan')
 
     @staticmethod
-    def linear_correlation(population_a: IQuantitativePopulation, population_b: IQuantitativePopulation) -> float:
+    def linear_correlation(population1: AbstractQuantitativePopulation, population2: AbstractQuantitativePopulation) -> float:
         ''' Linear correlation refers to straight-line relationships between two variables.
             A correlation can range between -1 (perfect negative relationship) and +1 (perfect positive relationship),
             with 0 indicating no straight-line relationship '''
-        return QuantitativePopulation.covariance(population_a, population_b) / (population_a.standard_deviation * population_b.standard_deviation)
+        return QuantitativePopulation.covariance(population1, population2) / (population1.standard_deviation * population2.standard_deviation)
 
     @staticmethod
-    def correlation_coefficient(population_a: IQuantitativePopulation, population_b: IQuantitativePopulation):
+    def correlation_coefficient(population1: AbstractQuantitativePopulation, population2: AbstractQuantitativePopulation):
         ''' Alias for linear_correlation.
             Correlation coefficient refers to straight-line relationships between two variables.
             A correlation can range between -1 (perfect negative relationship) and +1 (perfect positive relationship),
             with 0 indicating no straight-line relationship '''
-        return QuantitativePopulation.linear_correlation(population_a, population_b)
+        return QuantitativePopulation.linear_correlation(population1, population2)

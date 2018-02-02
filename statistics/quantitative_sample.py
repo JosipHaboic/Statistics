@@ -1,5 +1,6 @@
-from . abstract.population import IQuantitativePopulation
+from . abstract.population import AbstractQuantitativePopulation
 from . quantitative_population import QuantitativePopulation
+
 
 class QuantitativeSample(QuantitativePopulation):
 
@@ -8,11 +9,11 @@ class QuantitativeSample(QuantitativePopulation):
 
     @property
     def variance(self) -> float:
-        mean = self.mean
-        return sum(map(lambda y: (y - mean)**2, self)) / (self.n - 1)
+        MEAN = self.mean # cache var in constant
+        return sum(map(lambda y: (y - MEAN)**2, self)) / (self.n - 1)
 
     @staticmethod
-    def linear_correlation(population_a: IQuantitativePopulation, population_b: IQuantitativePopulation) -> QuantitativePopulation:
+    def linear_correlation(population_a: AbstractQuantitativePopulation, population_b: AbstractQuantitativePopulation) -> QuantitativePopulation:
         ''' Linear correlation refers to straight-line relationships between two variables.
             A correlation can range between -1 (perfect negative relationship) and +1 (perfect positive relationship),
             with 0 indicating no straight-line relationship '''

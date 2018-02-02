@@ -1,6 +1,9 @@
-from abc import abstractproperty
+from abc import ABCMeta ,abstractproperty
 
 class Population(list):
+
+    __metaclass__  = ABCMeta
+
     def __init__(self, data=[]):
         list.__init__(self, data)
 
@@ -14,6 +17,8 @@ class ExistingPopulation(Population):
        3. Presence or absence of prior myocardial infarction in all American males between 45 and 64
           years of age.'''
     
+    __metaclass__ = ABCMeta
+
     def __init__(self, data):
         Population.__init__(self, data)
 
@@ -31,12 +36,16 @@ class ConceptualPopulation(Population):
           patients who receive short–acting calcium channel blockers.
        3. Positive or negative result of all pregnant women who would ever use a particular brand of
           home pregnancy test.'''
+    
+    __metaclass__ = ABCMeta
 
     def __init__(self, data):
         Population.__init__(self, data)
 
 
-class IQuantitativePopulation(Population):
+class AbstractQuantitativePopulation(Population):
+
+    __metaclass__ = ABCMeta
 
     @abstractproperty
     def n(self):pass
@@ -115,7 +124,9 @@ class IQuantitativePopulation(Population):
 
 
 
-class IQualitativePopulation(Population):
+class AbstractQualitativePopulation(Population):
+
+    __metaclass__ = ABCMeta
 
     @abstractproperty
     def frequencies(self):pass
