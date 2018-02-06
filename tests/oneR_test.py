@@ -24,22 +24,24 @@ DATA = [
 
 LABELS, PREDICTORS = prepare(DATA)
 PREDICTIONS = oneR(PREDICTORS)
-# pprint(PREDICTIONS)
-FREQUENCY_TABLE = FrequencyTable(PREDICTIONS,'Outlook')
-print(FREQUENCY_TABLE)
-# print(FREQUENCY_TABLE.frequncy_table)
-# for i in FREQUENCY_TABLE.frequncy_table:
-    # pprint(i)
-# CONFUSION_MATRICES = [ConfusionMatrix(x, FREQUENCY_TABLE.labels) for x in FREQUENCY_TABLE.ft.items()]
+
+FREQUENCY_TABLES = [FrequencyTable(*prediction) for prediction in PREDICTIONS.items()]
+CONFUSION_MATRICES = [ConfusionMatrix.from_frequency_table(frequency_table) for frequency_table in FREQUENCY_TABLES]
+for cf in CONFUSION_MATRICES:
+    pprint(cf.summary)
+# OUTLOOK_CM = ConfusionMatrix(FREQUENCY_TABLE.name, FREQUENCY_TABLE.lables, FREQUENCY_TABLE.frequncy_table)
+# OUTLOOK_CM = ConfusionMatrix.from_frequency_table(FREQUENCY_TABLE)
 
 
 # print('oneR generated predictors:')
 # pprint(PREDICTIONS)
 # print('\nfrequnecy table')
 # print(FREQUENCY_TABLE.labels)
-# for table in FREQUENCY_TABLE.ft.items():
+# for table in FREQUENCY_TABLE.frequncy_table:
 #     pprint(table)
-# for cm in CONFUSION_MATRICES:
-#     print('Confusion matrix:')
-#     pprint(cm.summary)
-#     print()
+
+# pprint(OUTLOOK_CM.summary)
+# # for cm in CONFUSION_MATRICES:
+# #     print('Confusion matrix:')
+# #     pprint(cm.summary)
+# #     print()

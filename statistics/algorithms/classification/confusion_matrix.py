@@ -4,9 +4,12 @@ Project: classification
 File Created: Sunday, 24th December 2017 7:30:48 pm
 Author: Josip Haboic (josiphaboic@gmail.com)
 -----
-Last Modified: Sat Dec 30 2017
+Last Modified: Tue Feb 06 2018
 Modified By: Josip Haboic
 '''
+
+from .frequency_table import FrequencyTable
+class ConfusionMatrix:pass
 
 class ConfusionMatrix:
     ''' In the field of machine learning and specifically the problem of statistical classification,
@@ -19,10 +22,10 @@ class ConfusionMatrix:
         It is a special kind of contingency table, with two dimensions ("actual" and "predicted"),
         and identical sets of "classes" in both dimensions (each combination of dimension and class
         is a variable in the contingency table). '''
-    def __init__(self, table_data, labels):
-        self.table_name = table_data[0]
-        self._table = table_data[1:][0]
+    def __init__(self, name, labels, table):
+        self.name = name
         self.labels = labels
+        self._table = table
 
     @property
     def table(self):
@@ -82,7 +85,9 @@ class ConfusionMatrix:
             'specificity' : self.specificity,
             'accuracy' : self.accuracy,
             'positive_predictive_value' : self.positive_predictive_value,
-            'negative_predictive_value' : self.negative_predictive_value,
+            'negative_predictive_value' : self.negative_predictive_value
         }
-        
 
+    @staticmethod
+    def from_frequency_table(frequncy_table: FrequencyTable) -> ConfusionMatrix:
+        return ConfusionMatrix(frequncy_table.name, frequncy_table.labels, frequncy_table.frequncy_table)

@@ -7,9 +7,9 @@ __all__ = ('FrequencyTable',)
 
 class FrequencyTable:
 
-    def __init__(self, data, name):
-        self.data = data[name]
+    def __init__(self, name: str, data=None):
         self.name = name
+        self.data = data
 
     def get_row_with_label(self, n):
         return [self.class_labels[n], *self.get_row(n)]
@@ -17,9 +17,8 @@ class FrequencyTable:
     def get_row(self, n: int) -> list:
         return self.frequncy_table[n]
 
-    def get_column(self, n: int) -> GeneratorType:
-        for i in self.frequncy_table:
-            yield i[n]
+    def get_column(self, n: int) -> list:
+        return [i[n] for i in self.frequncy_table]
 
     @property
     def frequncy_table(self) -> list:
@@ -44,24 +43,13 @@ class FrequencyTable:
     @property
     def number_of_columns(self) -> int:
         return len(self.frequncy_table[0])
-    
+
     def __repr__(self):
-        return '''
-        +{}+
-        |{:^32}|
-        +{}+
-        |{:>24}|
-        +{}+
-        {}
+        return '''\n{:<32}\n{:<32}\n{:<32}\n{:<32}\n{:<32}\n
         '''.format(
             32 * '-',
             self.name,
             32 * '-',
-            '{:<10}{:^20}'.format('\t','  |  '.join(self.labels)),
-            32 * '-',
-            [self.get_row_with_label(i) for i in range(self.number_of_rows)]
-            )
-
-
-
-
+            '\t'.join(self.labels),
+            '\n'.join([str(list(x.values())) for x in self.values])
+        )
