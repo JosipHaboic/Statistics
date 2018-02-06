@@ -1,5 +1,5 @@
 import numpy
-from qualitative_population import QualitativePopulation
+from pymymath.statistics.qualitative_population import QualitativePopulation
 from matplotlib import pyplot
 from pprint import pprint
 

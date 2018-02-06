@@ -1,10 +1,10 @@
 from collections import Counter
-from . abstract.population import AbstractQualitativePopulation
+from . abstract.population import Population
 from . quantitative_population import QuantitativePopulation
 
 __all__ = ['QualitativePopulation']
 
-class QualitativePopulation(AbstractQualitativePopulation):
+class QualitativePopulation(Population):
 
     def __init__(self, data):
         Population.__init__(self, data)

@@ -24,17 +24,22 @@ DATA = [
 
 LABELS, PREDICTORS = prepare(DATA)
 PREDICTIONS = oneR(PREDICTORS)
-FREQUENCY_TABLE = FrequencyTable(PREDICTIONS)
-CONFUSION_MATRICES = [ConfusionMatrix(x, FREQUENCY_TABLE.labels) for x in FREQUENCY_TABLE.ft.items()]
+# pprint(PREDICTIONS)
+FREQUENCY_TABLE = FrequencyTable(PREDICTIONS,'Outlook')
+print(FREQUENCY_TABLE)
+# print(FREQUENCY_TABLE.frequncy_table)
+# for i in FREQUENCY_TABLE.frequncy_table:
+    # pprint(i)
+# CONFUSION_MATRICES = [ConfusionMatrix(x, FREQUENCY_TABLE.labels) for x in FREQUENCY_TABLE.ft.items()]
 
 
-print('oneR generated predictors:')
-pprint(PREDICTIONS)
-print('\nfrequnecy table')
-print(FREQUENCY_TABLE.labels)
-for table in FREQUENCY_TABLE.ft.items():
-    pprint(table)
-for cm in CONFUSION_MATRICES:
-    print('Confusion matrix:')
-    pprint(cm.summary)
-    print()
+# print('oneR generated predictors:')
+# pprint(PREDICTIONS)
+# print('\nfrequnecy table')
+# print(FREQUENCY_TABLE.labels)
+# for table in FREQUENCY_TABLE.ft.items():
+#     pprint(table)
+# for cm in CONFUSION_MATRICES:
+#     print('Confusion matrix:')
+#     pprint(cm.summary)
+#     print()

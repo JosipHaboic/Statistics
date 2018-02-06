@@ -6,11 +6,11 @@ from matplotlib import pyplot
 
 
 def normalize(data: list) -> list:
-    magnitude = sum(map(lambda x: x**2, data)) ** 0.5
-    if magnitude == 0:
-        magnitude = 1
+    MAGNITUDE = sum(map(lambda x: x**2, data)) ** 0.5
+    if MAGNITUDE == 0:
+        MAGNITUDE = 1
     for index, value in enumerate(data):
-        data[index] = value / magnitude
+        data[index] = value / MAGNITUDE
     return data
 
 
@@ -66,6 +66,6 @@ def test3():
     print('TEST 3 PASSED')
     print('t test = {}'.format(T_TEST))
 
-# test1()
-# test2()
+test1()
+test2()
 test3()
