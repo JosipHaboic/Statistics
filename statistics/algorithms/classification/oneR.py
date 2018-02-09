@@ -12,7 +12,7 @@ def prepare(data):
     return labels, predictors
 
 
-def oneR(predictors, empty=0):
+def oneR(predictors, target_default_value=0):
     ''' OneR, short for "One Rule", is a simple, yet accurate, 
         classification algorithm that generates one rule for each predictor in the data,
         then selects the rule with the smallest total error as its "one rule".
@@ -34,6 +34,6 @@ def oneR(predictors, empty=0):
 
             for value_name in values_names:
                 if value_name not in counted_predictors[predictor[0]][pair[0]].keys():
-                    counted_predictors[predictor[0]][pair[0]][value_name] = empty
+                    counted_predictors[predictor[0]][pair[0]][value_name] = target_default_value
                     
     return counted_predictors

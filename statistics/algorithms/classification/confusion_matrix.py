@@ -4,7 +4,7 @@ Project: classification
 File Created: Sunday, 24th December 2017 7:30:48 pm
 Author: Josip Haboic (josiphaboic@gmail.com)
 -----
-Last Modified: Tue Feb 06 2018
+Last Modified: Wed Feb 07 2018
 Modified By: Josip Haboic
 '''
 
@@ -22,23 +22,19 @@ class ConfusionMatrix:
         It is a special kind of contingency table, with two dimensions ("actual" and "predicted"),
         and identical sets of "classes" in both dimensions (each combination of dimension and class
         is a variable in the contingency table). '''
-    def __init__(self, name, labels, table):
+    def __init__(self, name, markers, table):
         self.name = name
-        self.labels = labels
+        self.markers = markers
         self._table = table
 
     @property
-    def table(self):
-        return self._table
-
+    def a(self):return self.confusion_matrix[0][0]
     @property
-    def a(self):return self._table[0][0]
+    def b(self):return self.confusion_matrix[0][1]
     @property
-    def b(self):return self._table[0][1]
+    def c(self):return self.confusion_matrix[1][0]
     @property
-    def c(self):return self._table[1][0]
-    @property
-    def d(self):return self._table[1][1]
+    def d(self):return self.confusion_matrix[1][1]
 
     @property
     def sesitivity(self):
@@ -63,9 +59,9 @@ class ConfusionMatrix:
     @property
     def confusion_matrix(self):
         result = {}
-        for label in self.labels:
+        for label in self.markers.keys():
             result[label] = 0
-        for row in self.table:
+        for row in self._table:
             if row[0] >= row[1]:
                 result[self.labels[0]] += row[0]
             else:
@@ -75,6 +71,7 @@ class ConfusionMatrix:
     @property
     def summary(self):
         return {
+            'table_name' : self.name,
             'table' :  {
             'a' : self.a,
             'b' : self.b,
@@ -87,7 +84,3 @@ class ConfusionMatrix:
             'positive_predictive_value' : self.positive_predictive_value,
             'negative_predictive_value' : self.negative_predictive_value
         }
-
-    @staticmethod
-    def from_frequency_table(frequncy_table: FrequencyTable) -> ConfusionMatrix:
-        return ConfusionMatrix(frequncy_table.name, frequncy_table.labels, frequncy_table.frequncy_table)

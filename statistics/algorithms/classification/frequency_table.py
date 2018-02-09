@@ -11,18 +11,24 @@ class FrequencyTable:
         self.name = name
         self.data = data
 
-    def get_row_with_label(self, n):
+    def get_row_with_label(self, n) -> list:
         return [self.class_labels[n], *self.get_row(n)]
 
     def get_row(self, n: int) -> list:
-        return self.frequncy_table[n]
+        return self.frequency_table[n]
+
+    def get_rows(self) -> list:
+        return [row for row in self.frequency_table]
 
     def get_column(self, n: int) -> list:
-        return [i[n] for i in self.frequncy_table]
+        return [i[n] for i in self.frequency_table]
+
+    def get_column_with_label(self, n: int) -> list:
+        return [self.labels[n]] + [i[n] for i in self.frequency_table]
 
     @property
-    def frequncy_table(self) -> list:
-        return [list(x.values()) for x in self.values]
+    def frequency_table(self) -> list:
+        return [tuple(x.values()) for x in self.values]
 
     @property
     def labels(self) -> list:
@@ -38,11 +44,11 @@ class FrequencyTable:
 
     @property
     def number_of_rows(self) -> int:
-        return len(self.frequncy_table)
+        return len(self.frequency_table)
 
     @property
     def number_of_columns(self) -> int:
-        return len(self.frequncy_table[0])
+        return len(self.frequency_table[0])
 
     def __repr__(self):
         return '''\n{:<32}\n{:<32}\n{:<32}\n{:<32}\n{:<32}\n
