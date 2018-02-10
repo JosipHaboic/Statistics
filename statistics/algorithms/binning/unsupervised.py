@@ -15,10 +15,10 @@ class UnsupervisedBinning:
 
         while current_bin < NUMBER_OF_BINS:
             slice_start = current_bin * BIN_WIDTH 
-            slide_end = (current_bin + 1) * BIN_WIDTH
+            slice_end = (current_bin + 1) * BIN_WIDTH
 
             yield QuantitativeSample(
-                dataset[slice_start:slide_end]
+                dataset[slice_start:slice_end]
                 )
 
             current_bin += 1
