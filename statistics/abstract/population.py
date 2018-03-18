@@ -4,7 +4,8 @@ class Population(list):
 
     __metaclass__  = ABCMeta
 
-    def __init__(self, data=[]):
+    def __init__(self, data=[], name=None):
+        self.name = name
         list.__init__(self, data)
 
 
@@ -19,8 +20,8 @@ class ExistingPopulation(Population):
     
     __metaclass__ = ABCMeta
 
-    def __init__(self, data):
-        Population.__init__(self, data)
+    def __init__(self, data, name=None):
+        Population.__init__(self, data, name)
 
 
 class ConceptualPopulation(Population):
@@ -39,8 +40,8 @@ class ConceptualPopulation(Population):
     
     __metaclass__ = ABCMeta
 
-    def __init__(self, data):
-        Population.__init__(self, data)
+    def __init__(self, data, name=None):
+        Population.__init__(self, data, name)
 
 
 class AbstractQuantitativePopulation(Population):
@@ -136,9 +137,6 @@ class AbstractQualitativePopulation(Population):
 
     @abstractproperty
     def quantitatized_frequencies(self):pass
-
-    @abstractproperty
-    def summary(self):pass
 
     @abstractproperty
     def summary(self):pass

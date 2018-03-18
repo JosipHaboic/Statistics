@@ -6,8 +6,8 @@ __all__ = ['QualitativePopulation']
 
 class QualitativePopulation(Population):
 
-    def __init__(self, data):
-        Population.__init__(self, data)
+    def __init__(self, data, name=None):
+        Population.__init__(self, data, name)
 
     @property
     def n(self) -> int:

@@ -17,7 +17,7 @@ from operator import mul
 import math
 from . abstract.population import Population, AbstractQuantitativePopulation
 
-__all__ = ['QuantitativePopulation']
+__all__ = ('QuantitativePopulation',)
 
 
 class QuantitativePopulation(Population):
@@ -28,8 +28,8 @@ class QuantitativePopulation(Population):
        Quantitative data always are associated with a scale measure.
     '''
 
-    def __init__(self, data=[]):
-        Population.__init__(self, data)
+    def __init__(self, data=[], name=None):
+        Population.__init__(self, data, name)
 
     def normalize(self):
         '''Normalize values in dataset so they are in range 0-1'''

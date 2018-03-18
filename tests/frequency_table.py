@@ -1,8 +1,6 @@
-# Test based on: http://www.saedsayad.com/oner.htm
+from pymymath.statistics.data_container import DataTable
+# from pymymath.statistics.frequency_table import FrequencyTable
 from pprint import pprint
-from pymymath.statistics.algorithms.classification.oneR import prepare, oneR
-from pymymath.statistics.algorithms.classification.frequency_table import FrequencyTable
-from pymymath.statistics.algorithms.classification.confusion_matrix import ConfusionMatrix
 
 DATA = [
     ['Outlook', 'Temperature', 'Humidity', 'Windy', 'Play Golf'],
@@ -22,7 +20,12 @@ DATA = [
     ['Sunny', 'Mild', 'High', True, 'No']
 ]
 
-LABELS, PREDICTORS = prepare(DATA)
-PREDICTIONS = oneR(PREDICTORS)
+DT = DataTable(DATA[1:], DATA[0])
 
-print(PREDICTIONS)
+for column in DT.columns_with_labels:
+    pprint(column)
+    pprint(column[1].summary)
+    print()
+
+for ft in DT.frequency_table:
+    print(ft)

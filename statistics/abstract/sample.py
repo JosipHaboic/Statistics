@@ -15,7 +15,7 @@ class Sample(Population):
           patients receiving calcium channel blockers.
        6. Test results (positive or negative) among 50 pregnant women taking a home pregnancy test.'''
 
-    def __init__(self, data):
-        Population.__init__(self, data)
+    def __init__(self, data, name=None):
+        Population.__init__(self, data, name)
 
 

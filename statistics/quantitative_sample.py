@@ -4,8 +4,8 @@ from . quantitative_population import QuantitativePopulation
 
 class QuantitativeSample(QuantitativePopulation):
 
-    def __init__(self, data=[]):
-        QuantitativePopulation.__init__(self, data)
+    def __init__(self, data=[], name=None):
+        QuantitativePopulation.__init__(self, data, name)
 
     @property
     def variance(self) -> float:

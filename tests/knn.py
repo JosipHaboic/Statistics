@@ -1,6 +1,8 @@
 from pymymath.statistics.algorithms.classification.knn import KNN
 
 
+# lets see how well KNN will predict RGB values, with k=1, k=4
+
 TRAINING_DATA = [
     [255, 255, 255, 'white'],
     [0, 0, 0, 'black'],
@@ -9,6 +11,7 @@ TRAINING_DATA = [
     [0, 255, 0, 'green'],
     [0, 0, 255, 'blue']
 ]
+
 TEST_DATA = [
     [0,255,0],
     [255,0,0],
@@ -27,9 +30,11 @@ TEST_DATA = [
 DATA = KNN.convert_to_float(TRAINING_DATA, 'training')
 TEST_DATA = KNN.convert_to_float(TEST_DATA, 'test')
 
+def test_KNN(data, test_data, k=1):
+    predictions = KNN.knn(data, test_data, k)
+    for i in predictions:
+        print(i)
 
-K = 1
-
-KNN_DATA = KNN.knn(DATA, TEST_DATA, K)
-for i in KNN_DATA:
-    print(i)
+test_KNN(DATA, TEST_DATA, k=1)
+print()
+test_KNN(DATA, TEST_DATA, k=4)
